@@ -116,21 +116,20 @@
             class="btn-clear"
             disabled
           >
-            清除 Done 項目
+            清除「完成」項目
           </button>
         </div>
       </div>
     </section>
 
-    <!-- 三欄看板區：To-do / Process / Done -->
+    <!-- 三欄看板區：待辦 / 進行中 / 完成 -->
     <section class="kanban-board" aria-label="任務狀態看板">
-      <!-- 欄位 1: To-do -->
+      <!-- 欄位 1: 待辦 -->
       <div class="kanban-column" data-status="todo">
         <div class="column-header column-header-todo">
           <div class="column-title-group">
             <span class="status-dot dot-todo"></span>
-            <h2 class="column-title">To-do</h2>
-            <span class="column-sub">待處理</span>
+            <h2 class="column-title">待辦</h2>
           </div>
           <span class="column-count" id="col-count-todo">0</span>
         </div>
@@ -138,17 +137,16 @@
           class="column-body"
           id="list-todo"
           data-dropzone="todo"
-          aria-label="To-do 任務清單"
+          aria-label="待辦 任務清單"
         ></div>
       </div>
 
-      <!-- 欄位 2: Process -->
+      <!-- 欄位 2: 進行中 -->
       <div class="kanban-column" data-status="process">
         <div class="column-header column-header-process">
           <div class="column-title-group">
             <span class="status-dot dot-process"></span>
-            <h2 class="column-title">Process</h2>
-            <span class="column-sub">進行中</span>
+            <h2 class="column-title">進行中</h2>
           </div>
           <span class="column-count" id="col-count-process">0</span>
         </div>
@@ -156,17 +154,16 @@
           class="column-body"
           id="list-process"
           data-dropzone="process"
-          aria-label="Process 任務清單"
+          aria-label="進行中 任務清單"
         ></div>
       </div>
 
-      <!-- 欄位 3: Done -->
+      <!-- 欄位 3: 完成 -->
       <div class="kanban-column" data-status="done">
         <div class="column-header column-header-done">
           <div class="column-title-group">
             <span class="status-dot dot-done"></span>
-            <h2 class="column-title">Done</h2>
-            <span class="column-sub">已完成</span>
+            <h2 class="column-title">完成</h2>
           </div>
           <span class="column-count" id="col-count-done">0</span>
         </div>
@@ -174,7 +171,7 @@
           class="column-body"
           id="list-done"
           data-dropzone="done"
-          aria-label="Done 任務清單"
+          aria-label="完成 任務清單"
         ></div>
       </div>
     </section>
@@ -182,7 +179,7 @@
     <!-- 底部狀態列 -->
     <footer class="app-footer" id="app-footer">
       <div class="footer-summary" id="footer-summary">
-        To-do: 0 ｜ Process: 0 ｜ Done: 0（共 0 項）
+        待辦: 0 ｜ 進行中: 0 ｜ 完成: 0（共 0 項）
       </div>
     </footer>
   </main>

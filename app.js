@@ -305,7 +305,7 @@ function updateStats(filteredTodos) {
     filteredTodos.filter((t) => t.status === "done").length
   );
 
-  footerSummaryEl.textContent = `To-do: ${todoCountAll} ｜ Process: ${processCountAll} ｜ Done: ${doneCountAll}（共 ${totalCount} 項）`;
+  footerSummaryEl.textContent = `待辦: ${todoCountAll} ｜ 進行中: ${processCountAll} ｜ 完成: ${doneCountAll}（共 ${totalCount} 項）`;
   clearCompletedBtn.disabled = doneCountAll === 0;
 }
 
