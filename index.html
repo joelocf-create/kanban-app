@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>待辦事項看板 | TASK MANAGEMENT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 頂部品牌飾條 -->
+  <div class="top-bar"></div>
+
+  <main class="app-container">
+    <!-- 標題區塊 -->
+    <header class="app-header">
+      <div class="header-titles">
+        <p class="header-subtitle">TASK MANAGEMENT BOARD</p>
+        <h1 class="header-title">待辦事項<span>看板</span></h1>
+      </div>
+      <div class="header-stats" aria-live="polite">
+        <span class="stat-number" id="pending-count">0</span>
+        <span class="stat-label">項未完成</span>
+      </div>
+    </header>
+
+    <!-- 頂部控制卡片：新增任務表單 + 分類篩選列 -->
+    <section class="control-panel">
+      <form id="todo-form" class="todo-form" autocomplete="off">
+        <div class="form-row">
+          <div class="input-group input-group-task">
+            <label for="todo-input" class="sr-only">任務內容</label>
+            <input
+              type="text"
+              id="todo-input"
+              class="form-control"
+              placeholder="請輸入待辦任務內容..."
+              required
+              maxlength="120"
+            />
+          </div>
+
+          <div class="input-group input-group-assignee">
+            <label for="todo-assignee" class="sr-only">負責人</label>
+            <input
+              type="text"
+              id="todo-assignee"
+              class="form-control"
+              placeholder="負責人 (選填)"
+              maxlength="30"
+            />
+          </div>
+
+          <div class="input-group input-group-category">
+            <label for="todo-category" class="sr-only">分類</label>
+            <select id="todo-category" class="form-control" title="選擇任務分類">
+              <option value="work">分類：工作</option>
+              <option value="life">分類：生活</option>
+            </select>
+          </div>
+
+          <div class="input-group input-group-priority">
+            <label for="todo-priority" class="sr-only">優先程度</label>
+            <select id="todo-priority" class="form-control" title="選擇任務優先程度">
+              <option value="high">優先：High</option>
+              <option value="medium" selected>優先：Medium</option>
+              <option value="low">優先：Low</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="add-btn">
+            <span>新增任務</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- 分類篩選導覽列與清除按鈕 -->
+      <div class="toolbar">
+        <nav class="filter-tabs" role="tablist" aria-label="任務分類篩選">
+          <button
+            type="button"
+            class="filter-tab active"
+            data-filter="all"
+            role="tab"
+            aria-selected="true"
+          >
+            全部 <span class="tab-badge" id="count-all">0</span>
+          </button>
+          <button
+            type="button"
+            class="filter-tab"
+            data-filter="work"
+            role="tab"
+            aria-selected="false"
+          >
+            工作 <span class="tab-badge" id="count-work">0</span>
+          </button>
+          <button
+            type="button"
+            class="filter-tab"
+            data-filter="life"
+            role="tab"
+            aria-selected="false"
+          >
+            生活 <span class="tab-badge" id="count-life">0</span>
+          </button>
+        </nav>
+
+        <div class="toolbar-right">
+          <span class="drag-hint">提示：各欄位自動依 High → Medium → Low 排序，亦可拖曳卡片切換欄位</span>
+          <button
+            type="button"
+            id="clear-completed-btn"
+            class="btn-clear"
+            disabled
+          >
+            清除 Done 項目
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 三欄看板區：To-do / Process / Done -->
+    <section class="kanban-board" aria-label="任務狀態看板">
+      <!-- 欄位 1: To-do -->
+      <div class="kanban-column" data-status="todo">
+        <div class="column-header column-header-todo">
+          <div class="column-title-group">
+            <span class="status-dot dot-todo"></span>
+            <h2 class="column-title">To-do</h2>
+            <span class="column-sub">待處理</span>
+          </div>
+          <span class="column-count" id="col-count-todo">0</span>
+        </div>
+        <div
+          class="column-body"
+          id="list-todo"
+          data-dropzone="todo"
+          aria-label="To-do 任務清單"
+        ></div>
+      </div>
+
+      <!-- 欄位 2: Process -->
+      <div class="kanban-column" data-status="process">
+        <div class="column-header column-header-process">
+          <div class="column-title-group">
+            <span class="status-dot dot-process"></span>
+            <h2 class="column-title">Process</h2>
+            <span class="column-sub">進行中</span>
+          </div>
+          <span class="column-count" id="col-count-process">0</span>
+        </div>
+        <div
+          class="column-body"
+          id="list-process"
+          data-dropzone="process"
+          aria-label="Process 任務清單"
+        ></div>
+      </div>
+
+      <!-- 欄位 3: Done -->
+      <div class="kanban-column" data-status="done">
+        <div class="column-header column-header-done">
+          <div class="column-title-group">
+            <span class="status-dot dot-done"></span>
+            <h2 class="column-title">Done</h2>
+            <span class="column-sub">已完成</span>
+          </div>
+          <span class="column-count" id="col-count-done">0</span>
+        </div>
+        <div
+          class="column-body"
+          id="list-done"
+          data-dropzone="done"
+          aria-label="Done 任務清單"
+        ></div>
+      </div>
+    </section>
+
+    <!-- 底部狀態列 -->
+    <footer class="app-footer" id="app-footer">
+      <div class="footer-summary" id="footer-summary">
+        To-do: 0 ｜ Process: 0 ｜ Done: 0（共 0 項）
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
